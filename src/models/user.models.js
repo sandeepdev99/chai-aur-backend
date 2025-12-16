@@ -3,7 +3,7 @@
 import mongoose, {Schema} from 'mongoose';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { use } from 'react';
+
 
 //defining the user schema
 const userSchema = new Schema({
