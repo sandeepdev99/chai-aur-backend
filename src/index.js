@@ -3,11 +3,12 @@
 
 import dotenv from "dotenv"
 import express from "express";
+import app from "./app.js";
 import connectDB from "./db/index.js";
 
 dotenv.config({ path : '.env' });
 console.log("PORT:", process.env.PORT);
-const app = express()
+
 
 // function connectDB{
 //   //code to connect
@@ -34,10 +35,6 @@ const app = express()
 //importing conection file for reusable and clean index.js
 connectDB()
 .then(() => {
-    app.on("error", (error) => {
-      console.log("ERR before connection:", error);
-      throw error
-    })
     app.listen(process.env.PORT, ()=> {
       console.log(`server is listening on port ${process.env.PORT}`);
     })
