@@ -33,3 +33,15 @@ const app = express()
 
 //importing conection file for reusable and clean index.js
 connectDB()
+.then(() => {
+    app.on("error", (error) => {
+      console.log("ERR before connection:", error);
+      throw error
+    })
+    app.listen(process.env.PORT, ()=> {
+      console.log(`server is listening on port ${process.env.PORT}`);
+    })
+  })
+.catch((err) => {
+  console.log("Failed to connect DB:", err);
+});
