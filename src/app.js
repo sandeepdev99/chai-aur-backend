@@ -1,11 +1,10 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import e from "express";
 
 const app = express();
 app.use(cors({
-    origin: process.env.CORS_ORIGIN,//*
+    origin: process.env.CORS_ORIGIN,//*-allow all origins
     credentials: true,
     optionsSuccessStatus: 200
 }));

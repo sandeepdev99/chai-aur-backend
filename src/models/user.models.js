@@ -31,16 +31,16 @@ const userSchema = new Schema({
         maxlength: 100,
         index: true,
     },
-    avatarUrl: {
+    avatar: {
         type: String,//cloudinary url for user avatar
         trim: true,
-        default: 'https://example.com/default-avatar.png',
+        default: '',
         required: true,
     },
-    coverImgUrl: {
+    coverImage: {
         type: String,//cloudinary url for user cover image
         trim: true,
-        default: 'https://example.com/default-cover.png',
+        default: '',
         required: false,
     },
     watchHistory: {
@@ -48,10 +48,10 @@ const userSchema = new Schema({
         ref: 'Video',
         default: [],
     },
-    passwordHash: {
+    password: {
         type: String,
         required: [true, 'Password is required' ],
-        minlength: 60, //assuming bcrypt hash
+        minlength: 8, //assuming bcrypt hash
     },
     refreshToken: {
         type: String,
@@ -59,15 +59,21 @@ const userSchema = new Schema({
     }
 }, {timestamps: true});
 
-userSchema.pre('save', async function(next) {
-    if (this.isModified('passwordHash')) {
-        this.passwordHash = await bcrypt.hash(this.passwordHash, 10);
+function testingCode(love) {
+    // to console log something for testing
+    console.log("This is a test function");
+    console.log("userSchema",love)
+}
+
+//pre-save hook to hash password before saving to db
+userSchema.pre('save',async function() {
+    if (this.isModified('password')) {
+        this.password = await bcrypt.hash(this.password, 10);
     }
-    next(); 
 });
 
 userSchema.methods.isPasswordValid = async function(password) {
-    return await bcrypt.compare(password, this.passwordHash);
+    return await bcrypt.compare(password, this.password);
 };
 
 userSchema.methods.generateAccessToken =  function() {
@@ -76,7 +82,8 @@ userSchema.methods.generateAccessToken =  function() {
         email: this.email,
         username: this.username,
         fullName: this.fullName,
-    }, process.env.ACESS_TOKEN_SECRET, {
+    }, process.env.ACESS_TOKEN_SECRET, 
+    {
         expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN
     })
 };
@@ -93,3 +100,4 @@ userSchema.methods.generateRefreshToken = function() {
 const User = mongoose.model('User', userSchema);
 
 export default User;
+export { testingCode };

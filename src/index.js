@@ -1,20 +1,16 @@
 // require('dotenv').config({path: './env'});
-// //this also works but in causs inconsistency.
-
+// //this also works but it causes inconsistency here.
 import dotenv from "dotenv"
-import express from "express";
 import app from "./app.js";
 import connectDB from "./db/index.js";
 
 dotenv.config({ path : '.env' });
-console.log("PORT:", process.env.PORT);
 
-
-// function connectDB{
+/*// function connectDB{
 //   //code to connect
 // }
 // connectNB();
-/*
+
 ;(async () => {
   try {
     await mongoose.connect(`${process.env.MONGODB_URI}/${DB_NAME}`)
@@ -33,12 +29,10 @@ console.log("PORT:", process.env.PORT);
 })()*/
 
 //importing conection file for reusable and clean index.js
+app.listen(process.env.PORT, () => {
+  console.log(`App is listening on port ${process.env.PORT}`);
+});
 connectDB()
-.then(() => {
-    app.listen(process.env.PORT, ()=> {
-      console.log(`server is listening on port ${process.env.PORT}`);
-    })
-  })
 .catch((err) => {
   console.log("Failed to connect DB:", err);
 });

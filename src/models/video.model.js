@@ -13,7 +13,8 @@ const videoSchema = new mongoose.Schema({
         type: String, //cloudinary url for video thumbnail
         required: true,
         trim: true,
-    },description: {
+    },
+    description: {
         type: String,
         trim: true,
         maxlength: 1000,
